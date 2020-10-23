@@ -7,6 +7,18 @@ const routes: Routes = [
   {
     path: '',
     component: FolderPage
+  },
+  {
+    path: 'conferences',
+    loadChildren: () => import('./conferences/conferences.module').then( m => m.ConferencesPageModule)
+  },
+  {
+    path: 'sessions',
+    loadChildren: () => import('./sessions/sessions.module').then( m => m.SessionsPageModule)
+  },
+  {
+    path: 'session-detail',
+    loadChildren: () => import('./session-detail/session-detail.module').then( m => m.SessionDetailPageModule)
   }
 ];
 
