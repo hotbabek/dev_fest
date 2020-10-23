@@ -1,0 +1,13 @@
+{
+  "name": "DevFest App",
+  "short_name": "DFA",
+  "start_url": "/",
+  "display": "standalone",
+
+  "description": "Une super app pour le DevFest",
+  "icons": [{
+  "src": "assets/computer.png",
+  "sizes": "256x256",
+  "type": "image/png"
+  }]
+}
