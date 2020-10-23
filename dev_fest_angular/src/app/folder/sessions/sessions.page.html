@@ -10,10 +10,10 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let s of sessions">
-        <a href={{s.link}}>
-            <ion-label>{{s.name}} <ion-icon name="chevron-forward-outline"></ion-icon>
-            </ion-label>
-        </a>
+            <!-- <ion-router-link routerLink={{s.link}}>{{s.name}} <ion-icon name="chevron-forward-outline"></ion-icon>
+            </ion-label> -->
+        <ion-button (click)="navigate(s.id)">{{s.name}} <ion-icon name="chevron-forward-outline"></ion-icon></ion-button>
+        
       </ion-item>
     </ion-list>
 </ion-content>
