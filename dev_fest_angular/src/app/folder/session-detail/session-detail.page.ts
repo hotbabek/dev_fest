@@ -9,10 +9,13 @@ import { NavController } from '@ionic/angular';
   templateUrl: './session-detail.page.html',
   styleUrls: ['./session-detail.page.scss'],
 })
+
 export class SessionDetailPage implements OnInit {
-  private session=[];
-  private speakers=[];
-  
+   session=[];
+   speakers=[];
+  name : string ="";
+  description : string ="";
+
   constructor(private http : HttpClient,private router : Router , private activatedRoute : ActivatedRoute ,  public navCtrl: NavController) { }
 
   ngOnInit() {
@@ -28,7 +31,9 @@ export class SessionDetailPage implements OnInit {
 
             //Session
             this.session["name"]=sessionRaw.title;
+            this.name = sessionRaw.title
             this.session["description"]=sessionRaw.description;
+            this.description=sessionRaw.description
             if(this.session["description"]==undefined){
               this.session["description"]="Pas de description pour cette session";
             }

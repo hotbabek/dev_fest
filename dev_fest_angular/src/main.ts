@@ -12,9 +12,8 @@ platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.log(err));
 
   if ('serviceWorker' in navigator) {
-    console.log("1")
     // enregistrement d'un service worker
-    navigator.serviceWorker.register('sw.js',{scope:"./"})
+    navigator.serviceWorker.register('./sw.js')
     .then(function(registration) {
       if(registration.installing) {
         console.log('Service worker installing');
@@ -29,7 +28,6 @@ platformBrowserDynamic().bootstrapModule(AppModule)
     console.log('Enregistrement Ko, erreur:', error);
     });
     }else{
-        console.log("2")
 
     }
 
