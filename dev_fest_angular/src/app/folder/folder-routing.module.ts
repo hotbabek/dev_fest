@@ -23,7 +23,11 @@ const routes: Routes = [
   {
     path: 'speaker-detail',
     loadChildren: () => import('./speaker-detail/speaker-detail.module').then( m => m.SpeakerDetailPageModule)
-  }
+  },
+  {
+    path: 'presentateurs',
+    loadChildren: () => import('./presentateurs/presentateurs.module').then( m => m.PresentateursPageModule)
+  },
 ];
 
 @NgModule({

@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { element } from 'protractor';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { SpeakerService } from 'src/app/services/speaker.service';
+import { SessionsService } from 'src/app/services/sessions.service';
 
 @Component({
   selector: 'app-session-detail',
@@ -15,60 +17,54 @@ export class SessionDetailPage implements OnInit {
    speakers=[];
   name : string ="";
   description : string ="";
+  private sessionID;
 
-  constructor(private http : HttpClient,private router : Router , private activatedRoute : ActivatedRoute ,  public navCtrl: NavController) { }
+  constructor(private http : HttpClient,private router : Router , private activatedRoute : ActivatedRoute ,  public navCtrl: NavController,private speakerService : SpeakerService,
+    private sessionsService : SessionsService) { }
 
   ngOnInit() {
-    this.http.get(' https://devfest-nantes-2018-api.cleverapps.io/sessions').subscribe((response ) =>{
-      
-
-      let sessionsRaw = Object.values(response);
-      this.activatedRoute.queryParams.subscribe(params=>{        
-          if(params && params.id){
-            let id = JSON.parse(params.id);
-            let sessionRaw =sessionsRaw.find(element=>element.id==id);
-            console.log(sessionRaw);
-
-            //Session
-            this.session["name"]=sessionRaw.title;
-            this.name = sessionRaw.title
-            this.session["description"]=sessionRaw.description;
-            this.description=sessionRaw.description
-            if(this.session["description"]==undefined){
-              this.session["description"]="Pas de description pour cette session";
-            }
-            this.session["speakers"]=""+sessionRaw.speakers;
-
-            
-          }else{
-            console.log("pas de qes");
-            
-          }
-      }); 
-      
-    });
-    console.log("session :");
-                console.log(this.session);
-    this.http.get(' https://devfest-nantes-2018-api.cleverapps.io/speakers').subscribe((response ) =>{
-      
-      let speakersRaw = Object.values(response);
-      console.log(speakersRaw);
-
-      //Speakers
-      let i=0;
-      speakersRaw.forEach(element => {
-        if(this.session["speakers"].includes(element.id)){
-          this.speakers[i]= []
-          this.speakers[i]["img"]=element.photoUrl;
-          this.speakers[i]["name"]=element.name;
-          i++;
+      this.activatedRoute.queryParams.subscribe(params=>{
+        if(params && params.id){
+            this.sessionID = JSON.parse(params.id);                  
         }
-      });
-      console.log(this.speakers);
-    });
+      })
+      this.setSessionNameAndDescription();
+  }
+
+  setSessionNameAndDescription(){
+    this.sessionsService.getObservable().subscribe(response=>{
+      console.log(response);
+      
+      this.name =response[this.sessionID].title;
+      this.description=response[this.sessionID].description
+      let hasNoDescription = this.description==undefined || this.description =="";
+      if(hasNoDescription){
+        this.description="Pas de description pour cette session";
+      }
+
+      if(response[this.sessionID].speakers!= undefined){
+        this.setSpeakers(response[this.sessionID].speakers);
+      }
+      
+    })
+  }
+
+  setSpeakers(speakers : []){
+    console.log("ici");
+    
+    this.speakerService.getSpeakerRequest().subscribe(response =>{
+      speakers.forEach(speaker=>{
+        this.speakers.push(response[""+speaker].name)
+
+        
+      })
+      
+    })
   }
   
   navigate(id : string){
+    console.log(id);
+    
     //this should be within a function
 const navigationExtras: NavigationExtras = {
   queryParams: {

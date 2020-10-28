@@ -9,6 +9,7 @@ import { NavController } from '@ionic/angular';
 })
 export class SessionsPage implements OnInit {
    sessions=[]; 
+   
   constructor(private http: HttpClient, private router : Router  ,  public navCtrl: NavController) { }
 
   ngOnInit() {

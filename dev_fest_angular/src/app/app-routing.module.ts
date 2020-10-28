@@ -18,6 +18,9 @@ const routes: Routes = [
   },
   {
     path: 'speaker', loadChildren: './folder/speaker-detail/speaker-detail.module#SpeakerDetailPageModule'
+  },
+  {
+    path: 'Presentateurs', loadChildren: './folder/presentateurs/presentateurs.module#PresentateursPageModule'
   }
  
   
